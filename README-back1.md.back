@@ -1,18 +1,6 @@
 # MPV-EASY Player
 
-### ![](./img/mpv-logo-128.png)  🌐 Language of this page  : `中文` | [`English`](https://github-com.translate.goog/422658476/MPV-EASY-Player?_x_tr_sl=zh-CN&_x_tr_tl=en&_x_tr_hl=zh-CN&_x_tr_pto=wapp)
-
 ### [MPV-EASY Player](https://www.rjno1.com/mpv-easy-player/) : An easy to use, modern video player based on [MPV](https://github.com/mpv-player/mpv/)
-
-All the content on this page is described in Chinese.
-
-If you don't know the Chinese language, it doesn't matter. You can download it from the [release](https://github.com/422658476/MPV-EASY-Player/releases) page and try to use it. The interface of MPV-EASY Player supports display in Chinese, English and additional languages described below.
-
-![](./img/mpv-easy-player-gui-mode-github.jpg)
-
----
-### Please browse all content below from the wiki page：
-### 【Please browse all content below from the wiki page】：
 
 ## https://github.com/422658476/MPV-EASY-Player/wiki
 
@@ -37,10 +25,6 @@ If you don't know the Chinese language, it doesn't matter. You can download it f
 ***
 
 **The entire video player includes a lot of open-source code, but also even more closed-source code. Due to limited time and ability, it is not a cross-platform player and can only run on Windows. Many of its behaviors may even violate various agreements.**
-
----
-
-**Check out my other complete open-source project: [banana detect adblock](https://github.com/422658476/banana-detect-adblock)**
 
 ***
 
