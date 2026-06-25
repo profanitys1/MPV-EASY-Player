@@ -1,7 +1,7 @@
---此lua脚本由软件No1修改并提供支持
---This lua script is modified by www.rjno1.com
---此lua脚本原始版本： github.com/mpv-player/mpv/blob/master/player/lua/osc.lua
---The original version of this lua script：github.com/mpv-player/mpv/blob/master/player/lua/osc.lua
+-- This lua script is modified and provided by No1 Software
+-- This lua script is modified by www.rjno1.com
+-- The original version of this lua script: github.com/mpv-player/mpv/blob/master/player/lua/osc.lua
+-- The original version of this lua script: github.com/mpv-player/mpv/blob/master/player/lua/osc.lua
 local assdraw = require 'mp.assdraw'
 local msg = require 'mp.msg'
 local opt = require 'mp.options'
@@ -38,12 +38,12 @@ local user_opts = {
     seekbarstyle = "bar",       -- bar, diamond or knob
     seekbarhandlesize = 0.6,    -- size ratio of the diamond and knob handle
     seekrangestyle = "inverted",-- bar, line, slider, inverted or none
-    seekrangeseparate = true,   -- wether the seekranges overlay on the bar-style seekbar
+    seekrangeseparate = true,   -- whether the seekranges overlay on the bar-style seekbar
     seekrangealpha = 200,       -- transparency of seekranges
     seekbarkeyframes = true,    -- use keyframes when dragging the seekbar
     title = "${media-title}",   -- string compatible with property-expansion
                                 -- to be shown as OSC title
-    rjno1title = "MPV-EASY Player - ${filename}", --用来修改显示-口x时的标题
+    rjno1title = "MPV-EASY Player - ${filename}", -- Used to modify the title when displaying - □ x
     tooltipborder = 1,          -- border of tooltip in bottom/topbar
     timetotal = false,          -- display total time instead of remaining time?
     timems = false,             -- display timecodes with milliseconds?
@@ -147,7 +147,7 @@ local tick_delay = 0.03
 local is_december = os.date("*t").month == 12
 
 --
--- Helperfunctions
+-- Helper functions
 --
 
 function set_osd(res_x, res_y, text)
@@ -292,7 +292,7 @@ function get_align(align, frame, obj, margin)
     return (frame / 2) + (((frame / 2) - margin - (obj / 2)) * align)
 end
 
--- multiplies two alpha values, formular can probably be improved
+-- multiplies two alpha values, formula can probably be improved
 function mult_alpha(alphaA, alphaB)
     return 255 - (((1-(alphaA/255)) * (1-(alphaB/255))) * 255)
 end
@@ -452,7 +452,7 @@ local elements = {}
 
 function prepare_elements()
 
-    -- remove elements without layout or invisble
+    -- remove elements without layout or invisible
     local elements2 = {}
     for n, element in pairs(elements) do
         if not (element.layout == nil) and (element.visible) then
@@ -817,9 +817,9 @@ function render_elements(master_ass)
             elseif not (element.content == nil) then
                 buttontext = element.content -- text objects
             end
-			
-	    --匹配:(XXX) unknows 替换成:(XXX),注意XXX只能为0-3个字符
-	    buttontext = buttontext:gsub(":%((.?.?.?)%) unknown ", ":%(%1%)")  --gsub("%) unknown %(\"", "")
+            
+            -- Match: (XXX) unknown  replace with: (XXX), note XXX can only be 0-3 characters
+            buttontext = buttontext:gsub(":%((.?.?.?)%) unknown ", ":%(%1%)")  --gsub("%) unknown %(\"", "")
 
             local maxchars = element.layout.button.maxchars
             if not (maxchars == nil) and (#buttontext > maxchars) then
@@ -1022,7 +1022,7 @@ end
 function window_controls(topbar)
     local wc_geo = {
         x = 0,
-	-- -2去除默认情况下上方和边框之间的4px间隔
+    -- -2 removes the default 4px gap between the top and the border
         y = 30 + user_opts.barmargin -2,
         an = 1,
         w = osc_param.playresx,
@@ -1129,8 +1129,8 @@ function window_controls(topbar)
     ne = new_element("wctitle", "button")
     ne.content = function ()
         --local title = mp.command_native({"expand-text", user_opts.title})
-	--使用这个lua脚本顶部设置中的rjno1title参数替代title参数显示标题
-	local title = mp.command_native({"expand-text", user_opts.rjno1title})
+    -- Use the rjno1title parameter set at the top of this lua script instead of the title parameter to display the title
+    local title = mp.command_native({"expand-text", user_opts.rjno1title})
         -- escape ASS, and strip newlines and trailing slashes
         title = title:gsub("\\n", " "):gsub("\\$", ""):gsub("{","\\{")
         return not (title == "") and title or "mpv"
@@ -1138,7 +1138,7 @@ function window_controls(topbar)
     local left_pad = 5
     local right_pad = 10
     lo = add_layout("wctitle")
-    -- -3用来解决由于字体从24变为18后字体太靠下的问题
+    -- -3 fixes the issue where the font is too far down after changing from 24 to 18
     lo.geometry =
         { x = titlebox_left + left_pad, y = wc_geo.y - 3 -3, an = 1,
           w = titlebox_w, h = wc_geo.h }
@@ -1227,19 +1227,19 @@ layouts["box"] = function ()
     --
     -- Title row
     --
---an是元素根据自己的中心线上下浮动，an=1时 元素中心全部在中心点上，an=9 元素全部在中心点右侧和之下
---box左上角x坐标 posX - pos_offsetX 但an=5 元素中心点坐标和这个坐标一致，所以还要根据an=？加减元素的宽度
---box左上角y坐标 posY - pos_offsetY 但an=5 元素中心点坐标和这个坐标一致，所以还要根据an=？加减元素的高度
-	local rjno1X = posX - pos_offsetX
-	local rjno1Y = posY - pos_offsetY
+-- an determines how the element floats around its center point. an=1 means the element's center is on the center point, an=9 means the element is entirely to the right and below the center point.
+-- Box top-left corner x = posX - pos_offsetX, but with an=5 the element's center point is the same as this coordinate, so adjustments based on an= +/- are needed to add/subtract the element's width.
+-- Box top-left corner y = posY - pos_offsetY, but with an=5 the element's center point is the same as this coordinate, so adjustments based on an= +/- are needed to add/subtract the element's height.
+    local rjno1X = posX - pos_offsetX
+    local rjno1Y = posY - pos_offsetY
 
-	
+    
     --
     -- Seekbar
     --
-	geo ={x = rjno1X + 1100 / 2 , y = rjno1Y + 6 , an = 5, w = 1100, h = 13}
+    geo ={x = rjno1X + 1100 / 2 , y = rjno1Y + 6 , an = 5, w = 1100, h = 13}
     --lo = add_layout("seekbar")
-	
+    
 --if user_opts["seekbarstyle"] ~= "knob" then   
    
    new_element("bgbar1", "box")
@@ -1255,8 +1255,8 @@ layouts["box"] = function ()
         lo.box.hexagon = user_opts["seekbarstyle"] == "diamond"
     end
 
---end	
-	
+--end    
+    
     lo = add_layout("seekbar")
     lo.geometry = geo
     lo.style = osc_styles.rjno1timecodes
@@ -1266,92 +1266,91 @@ layouts["box"] = function ()
     lo.slider.tooltip_an = 5
     lo.slider.stype = user_opts["seekbarstyle"]
     lo.slider.rtype = user_opts["seekrangestyle"]
-	
+    
 --if user_opts["seekbarstyle"] == "knob" then 
---		lo.geometry.y = rjno1Y + 6 + 4
---	end	
-	
+--        lo.geometry.y = rjno1Y + 6 + 4
+--    end    
+    
 
 
-	
+    
     lo = add_layout("pl_prev")
     lo.geometry = {x = rjno1X + 10 * 3.5 * 0 + 10 * 3 -8, y = rjno1Y + 10 * 1.6 + 50 / 2 , an = 5, w = 30, h = 50}
-    lo.style = osc_styles.rjno130Buttons	
-	
+    lo.style = osc_styles.rjno130Buttons    
+    
     lo = add_layout("ch_prev")
     lo.geometry = {x = rjno1X + 10 * 3.5 * 1 + 10 * 3 -8, y = rjno1Y + 10 * 1.6 + 50 / 2 , an = 5, w = 30, h = 50}
-    lo.style = osc_styles.rjno140Buttons	
-	
-	lo = add_layout("skipback")
+    lo.style = osc_styles.rjno140Buttons    
+    
+    lo = add_layout("skipback")
     lo.geometry = {x = rjno1X + 10 * 3.5 * 2 + 10 * 3 -8, y = rjno1Y + 10 * 1.6 + 50 / 2 , an = 5, w = 30, h = 50}
-    lo.style = osc_styles.rjno140Buttons	
+    lo.style = osc_styles.rjno140Buttons    
 
-	
+    
     lo = add_layout("playpause")
     lo.geometry = {x = rjno1X + 10 * 3.5 * 3 + 10 * 3 -8, y = rjno1Y + 10 * 1.6 + 50 / 2 , an = 5, w = 30, h = 50}
-    lo.style = osc_styles.rjno150Buttons		
-	
-		
+    lo.style = osc_styles.rjno150Buttons        
+    
+        
     lo = add_layout("skipfrwd")
     lo.geometry = {x = rjno1X + 10 * 3.5 * 4 + 10 * 3 -8, y = rjno1Y + 10 * 1.6 + 50 / 2 , an = 5, w = 30, h = 50}
-    lo.style = osc_styles.rjno140Buttons	
+    lo.style = osc_styles.rjno140Buttons    
 
-	
-	lo = add_layout("ch_next")
+    
+    lo = add_layout("ch_next")
     lo.geometry = {x = rjno1X + 10 * 3.5 * 5 + 10 * 3 -8, y = rjno1Y + 10 * 1.6 + 50 / 2 , an = 5, w = 30, h = 50}
-    lo.style = osc_styles.rjno140Buttons	
-	
-	
+    lo.style = osc_styles.rjno140Buttons    
+    
+    
 
     lo = add_layout("pl_next")
     lo.geometry = {x = rjno1X + 10 * 3.5 * 6 + 10 * 3 -8, y = rjno1Y + 10 * 1.6 + 50 / 2 , an = 5, w = 30, h = 50}
-    lo.style = osc_styles.rjno130Buttons	
-	
-	
---an = 5 时文字居中显示 往2边增加，所以一定要用1，这样多出的文字只会往右侧增长
-	lo = add_layout("title")
+    lo.style = osc_styles.rjno130Buttons    
+    
+    
+-- With an=5, text is centered and expands to both sides, so we must use an=1 so that extra text only grows to the right.
+    lo = add_layout("title")
     lo.geometry = {x = rjno1X + 10 * 26 , y = rjno1Y + 10 * 2.6 + 20 / 2 , an = 1, w = 1100 - 10 * 3.5 * 7, h = 20}
-    lo.style = osc_styles.rjno116Buttons	
+    lo.style = osc_styles.rjno116Buttons    
     --lo.button.maxchars = user_opts.boxmaxchars
 
-	
+    
 
 
 
 
---an = 1 这样左侧的时间变长才会往右，但y轴要调整
+-- an=1, so the left time grows to the right, but the y-axis needs adjustment.
     lo = add_layout("tc_left")
     lo.geometry = {x = rjno1X + 10 * 26, y = rjno1Y + 10 * 5.1+ 20 / 2, an = 1, w = 110, h = 20}
-    lo.style = osc_styles.rjno120Buttons	
+    lo.style = osc_styles.rjno120Buttons    
 
---an = 5
+-- an=5
     lo = add_layout("cache")
     lo.geometry = {x = rjno1X + 10 * 50 + 10 * 11 / 2, y = rjno1Y + 10 * 5.1, an = 5, w = 110, h = 20}
-    lo.style = osc_styles.rjno120Buttons	
---an = 9 这样右侧的时间变长才会往左，但y轴要调整
+    lo.style = osc_styles.rjno120Buttons    
+-- an=9, so the right time grows to the left, but the y-axis needs adjustment.
     lo = add_layout("tc_right")
     lo.geometry = {x = rjno1X + 10 * 78 + 10 * 11 / 2, y = rjno1Y + 10 * 5.1- 20 / 2 + 1, an = 9, w = 110, h = 20}
-    lo.style = osc_styles.rjno120Buttons	
+    lo.style = osc_styles.rjno120Buttons    
 
-	
-	
-	
-	
+    
+    
+    
 
 
     lo = add_layout("cy_audio")
     lo.geometry = {x = rjno1X + 10 * 85 + 10 * 7/2, y = rjno1Y + 10 * 5.1, an = 5, w = 70, h = 20}
-    lo.style = osc_styles.rjno120Buttons	
+    lo.style = osc_styles.rjno120Buttons    
 
     lo = add_layout("cy_sub")
     lo.geometry = {x = rjno1X + 10 * 93 + 10 * 7/2, y = rjno1Y + 10 * 5.1, an = 5, w = 70, h = 20}
-    lo.style = osc_styles.rjno120Buttons	
+    lo.style = osc_styles.rjno120Buttons    
 
---an = 1 图标最左侧才能点击
+-- an=1 so the icon's leftmost side is clickable
     lo = add_layout("volume")
     lo.geometry = {x = rjno1X + 10 * 102 , y = rjno1Y + 10 * 5 + 13, an = 1, w = 30, h = 26}
-    lo.style = osc_styles.rjno125Buttons	
---an = 1 图标最左侧才能点击
+    lo.style = osc_styles.rjno125Buttons    
+-- an=1 so the icon's leftmost side is clickable
     lo = add_layout("tog_fs")
     lo.geometry = {x = rjno1X + 10 * 106, y = rjno1Y + 10 * 5 + 13 +1 , an = 1, w = 30, h =26 }
     lo.style = osc_styles.rjno125Buttons
